@@ -1,4 +1,4 @@
-package com.apachePoi.apachePoi.writeOperation;
+package com.apachePoi.writeOperation;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,8 +8,10 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -21,8 +23,9 @@ public class POIforgfgWrite {
 
 	public void writeOperation() {
 		// Blank workbook
-		XSSFWorkbook workbook = new XSSFWorkbook();
 
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		
 		// Create a blank sheet
 		XSSFSheet sheet = workbook.createSheet("Employee Details");
 
@@ -46,10 +49,21 @@ public class POIforgfgWrite {
 		// Set heading
 		Row headrow = sheet.createRow(0);
 		int headcell = 0;
+		
 		for (Object head : heading) {
-
+            
 			Cell cell = headrow.createCell(headcell++);
-
+			CellStyle style=null;
+			XSSFFont font= workbook.createFont();
+			font.setBold(true);
+			style=workbook.createCellStyle();;
+	        
+	        // Setting font to style
+	        style.setFont(font);
+			style.setFont(font);
+			cell.setCellStyle(style);
+		
+            
 			if (head instanceof String)
 				cell.setCellValue((String) head);
 
@@ -74,7 +88,10 @@ public class POIforgfgWrite {
 				} else if (cellnum == 3) {
 					cell.setCellValue(objArr.getSalary());
 				} else if (cellnum == 4) {
+					sheet.setColumnWidth(3, 6000);
 					cell.setCellValue(objArr.getEmail());
+					
+					
 				} else {
 					cell.setCellValue(objArr.getAddress());
 				}
